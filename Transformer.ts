@@ -42,10 +42,6 @@ export class Transformer<Config extends TransformerConfig = TransformerConfig> e
 
     const center: Vector2d = this.entity.getCenter();
 
-    /* ctx.translate(center.x, center.y);
-    ctx.rotate(this.config.angle * Math.PI / 180);
-    ctx.translate(-center.x, -center.y); */
-
     const dummy = Box.create(<BoxConfig>{
       x: this.entity.config.x,
       y: this.entity.config.y,

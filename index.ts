@@ -1,11 +1,13 @@
 // Import stylesheets
 import './style.css';
 
+import { Entity, EntityConfig } from './Entity';
 import { Scene, SceneConfig } from './Scene';
 import { Box, BoxConfig } from './Box';
 import { Line, LineConfig } from './Line';
 import { Text, TextConfig } from './Text';
 import { Transformer, TransformerConfig } from './Transformer';
+import { Controller, ControllerConfig } from './Controller';
 import { Transform } from './Types';
 
 const scene: Scene = Scene.create(<SceneConfig>{
@@ -162,38 +164,12 @@ boxM.add(transformer);
 
 container.style.backgroundColor = 'white';
 
-const props = ['x', 'y', 'width', 'height', 'angle'];
-
-const wrapper = document.querySelector('#controls-wrapper');
-const controlledNode = boxM;
-
-if (wrapper) {
-  for (const prop of props) {
-
-    
-    const control = document.createElement('div');
-    control.className = 'control';
-
-    const input = document.createElement('input');
-    input.type = 'number';
-    input.step = '5';
-    input.id = prop;
-
-    const label = document.createElement('label');
-    label.textContent = prop.substr(0, 1);
-
-    input.value = controlledNode.getProp(prop);
-
-    input.onchange = (evt: InputEvent) => {
-      controlledNode.setProp(prop, +evt.target.value);
-      scene.render();
-    };
-
-    control.appendChild(label);
-    control.appendChild(input);
-    wrapper.appendChild(control);
-  }
-}
+const controller: Controller = Controller.create({
+  container: document.querySelector('#controls-wrapper'),
+  entity: boxM,
+  scene: scene,
+  props: ['x', 'y', 'width', 'height', 'angle']
+});
 
 let scale = 1;
 
@@ -258,7 +234,7 @@ function loop() {
   boxM.transform(<Transform>{
     y: controls.y,
     width: controls.width,
-    angle: controls.angle
+    angle: controls.angle * .2
   });
 
   textV.transform(<Transform>{
@@ -279,6 +255,8 @@ function loop() {
 
   // Render
   scene.render();
+
+  controller.update(boxM);
 
   // Start loop
   requestAnimationFrame(loop);
