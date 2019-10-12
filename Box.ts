@@ -12,15 +12,18 @@ export class Box<Config extends BoxConfig = BoxConfig> extends Entity<Config> {
     return new Box(config);
   }
 
-  render(ctx: CanvasRenderingContext2D): void {
-    ctx.save();
+  render(ctx: CanvasRenderingContext2D, newContext: boolean = true): void {
+    if (newContext) {
+      ctx.save();
+    }
+
+    ctx.beginPath();
+
     const center = this.getCenter();
 
     ctx.translate(center.x, center.y);
     ctx.rotate(this.config.angle * Math.PI / 180);
     ctx.translate(-center.x, -center.y);
-
-    ctx.beginPath();
 
     if (this.config.shadow) {
       ctx.shadowColor = this.config.shadow.color;
@@ -30,7 +33,12 @@ export class Box<Config extends BoxConfig = BoxConfig> extends Entity<Config> {
     }
 
     ctx.fillStyle = this.config.color;
-    ctx.rect(this.config.x, this.config.y, this.config.width, this.config.height);
+    ctx.rect(
+      this.config.x, 
+      this.config.y, 
+      this.config.width, 
+      this.config.height
+    );
 
     if (this.config.stroke) {
       ctx.strokeStyle = this.config.stroke.color;
@@ -39,8 +47,10 @@ export class Box<Config extends BoxConfig = BoxConfig> extends Entity<Config> {
     }
 
     ctx.fill();
-
     ctx.closePath();
-    ctx.restore();
+
+    if (newContext) {
+      ctx.restore();
+    }
   }
 }

@@ -29,7 +29,7 @@ export abstract class Entity<Config extends EntityConfig = EntityConfig> {
     this._config = config;
   }
 
-  abstract render(ctx: CanvasRenderingContext2D): void;
+  abstract render(ctx: CanvasRenderingContext2D, newContext: boolean): void;
 
   public get config(): Config {
     return this._config;

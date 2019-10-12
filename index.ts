@@ -20,7 +20,8 @@ const controls = {
   angle: 0,
   x: PADDING,
   y: PADDING,
-  angleText: 0
+  angleText: 0,
+  width: 50
 };
 
 const container = scene.getContainer();
@@ -153,10 +154,11 @@ scene
   .add(lineH)
   .add(lineV)
   .add(boxM)
-  .add(transformer);
+  // .add(transformer);
 
 boxH.add(textH);
 boxV.add(textV);
+boxM.add(transformer);
 
 container.style.backgroundColor = 'white';
 
@@ -233,6 +235,12 @@ function loop() {
     controls.y += 1;
   }
 
+  /* if (controls.width > 100) {
+    controls.width = 50;
+  } else {
+    controls.width += 1;
+  } */
+
   controls.angle += 1;
   controls.angleText -= 1.5;
 
@@ -244,6 +252,12 @@ function loop() {
 
   boxV.transform(<Transform>{
     y: controls.y,
+    angle: controls.angle
+  });
+
+  boxM.transform(<Transform>{
+    y: controls.y,
+    width: controls.width,
     angle: controls.angle
   });
 

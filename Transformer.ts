@@ -1,5 +1,6 @@
 import { Entity, EntityConfig } from './Entity';
 import { Box, BoxConfig } from './Box';
+import { Vector2d } from './Types';
 
 export interface TransformerConfig extends EntityConfig {
   anchorSize?: number;
@@ -28,89 +29,79 @@ export class Transformer<Config extends TransformerConfig = TransformerConfig> e
     this.entity = entity;
   }
 
-  /* createAnchor(entity: Entity, ctx: CanvasRenderingContext2D): void {
-    ctx.save();
-    ctx.beginPath();
-
-    
-    ctx.closePath();
-    ctx.restore();
-  } */
-
-  render(ctx: CanvasRenderingContext2D) {
+  render(ctx: CanvasRenderingContext2D, newContext: boolean = true) {
     if (!this.entity) {
       return;
     }
-    
-    ctx.save();
+
+    if (newContext) {
+      ctx.save();
+    }
+
     ctx.beginPath();
 
+    const center: Vector2d = this.entity.getCenter();
 
-    const positions = [
-      {
-        x: this.entity.config.x - this.ANCHOR_SIZE / 2,
-        y: this.entity.config.y - this.ANCHOR_SIZE / 2
-      },
-      {
-        x: this.entity.config.x + this.entity.config.width - this.ANCHOR_SIZE / 2,
-        y: this.entity.config.y - this.ANCHOR_SIZE / 2
-      },
-      {
-        x: this.entity.config.x + this.entity.config.width - this.ANCHOR_SIZE / 2,
-        y: this.entity.config.y + this.entity.config.height - this.ANCHOR_SIZE / 2
-      },
-      {
-        x: this.entity.config.x - this.ANCHOR_SIZE / 2,
-        y: this.entity.config.y + this.entity.config.height - this.ANCHOR_SIZE / 2
+    ctx.translate(center.x, center.y);
+    ctx.rotate(this.config.angle * Math.PI / 180);
+    ctx.translate(-center.x, -center.y);
+
+    const dummy = Box.create(<BoxConfig>{
+      ...this.entity.config,
+      // angle: this.entity.config.angle,
+      stroke: {
+        color: 'red',
+        width: 2
       }
-    ];
+    });
+
+    const positions = this.getEntityRect(this.entity);
+
+    dummy.render(ctx);
 
     for (let i = 0; i < positions.length; i++) {
-      /* ctx.rect(
-        positions[i].x, 
-        positions[i].y, 
-        this.ANCHOR_SIZE, 
-        this.ANCHOR_SIZE
-      );
-
-      ctx.stroke();
-      ctx.fill(); */
-      const box = Box.create(<BoxConfig>{
+      const anchor = Box.create(<BoxConfig>{
         x: positions[i].x, 
         y: positions[i].y, 
         width: this.ANCHOR_SIZE, 
         height: this.ANCHOR_SIZE, 
         color: 'white', 
         stroke: {
-          color: 'grey',
+          color: 'red',
           width: 2
         },
         angle: 0
       });
 
-      box.render(ctx);
+      anchor.render(ctx, false);
+      this.anchors.push(anchor);
     }
 
-    
-
-
-    //this.createAnchor(this.entity, ctx);
-
-    /* for (let i = 0; i < this.config.points.length; i++) {
-      const [x, y] = this.config.points[i];
-
-      if (i > 0) {
-        ctx.lineTo(x, y);
-      } else {
-        ctx.moveTo(x, y);
-      }
-    }
-
-    ctx.lineWidth = this.config.width || .5;
-    ctx.strokeStyle = this.config.color || 'grey'; */
-
-    // ctx.stroke();
     ctx.closePath();
-    ctx.restore();
+
+    if (newContext) {
+      ctx.restore();
+    }
+  }
+
+  getEntityRect(entity: Entity): Array<Vector2d> {
+    return [
+      {
+        x: entity.config.x - this.ANCHOR_SIZE / 2,
+        y: entity.config.y - this.ANCHOR_SIZE / 2
+      },
+      {
+        x: entity.config.x + entity.config.width - this.ANCHOR_SIZE / 2,
+        y: entity.config.y - this.ANCHOR_SIZE / 2
+      },
+      {
+        x: entity.config.x + entity.config.width - this.ANCHOR_SIZE / 2,
+        y: entity.config.y + entity.config.height - this.ANCHOR_SIZE / 2
+      },
+      {
+        x: entity.config.x - this.ANCHOR_SIZE / 2,
+        y: entity.config.y + entity.config.height - this.ANCHOR_SIZE / 2
+      }
+    ];
   }
 }
