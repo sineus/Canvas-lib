@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto';
+  display: flex;
+  height: 100vh;
+  position: relative;
+  background-color: #1E1E1E;
+}
+
+#app {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display: flex;
+  flex: 1;
+  
+}
+
+.canvas-wrapper {
+  overflow: scroll;
+  height: 100%;
+}
+
+.controls {
+  padding: 10px;
+  border-left: 1px solid #353535;
+  background-color: #1E1E1E;
+}
+
+.control {
+  margin-bottom: 5px;
+  position: relative;
+  width: 100%;
+}
+
+.control input {
+  border-radius: 3px;
+  box-shadow: none;
+  outline: 0;
+  border: 1px solid rgb(161, 165, 185);
+  height: 20px;
+  padding: 0 5px;
+}
+
+.control label {
+  font-size: 12px;
+  position: absolute;
+  display: block;
+  right: 5px;
+  top: 2.5px;
+  color: grey;
+}
