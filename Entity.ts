@@ -12,6 +12,10 @@ export interface EntityConfig {
     blur?: number;
     offsetX?: number;
     offsetY?: number;
+  },
+  stroke?: {
+    width?: number;
+    color?: string;
   }
 }
 

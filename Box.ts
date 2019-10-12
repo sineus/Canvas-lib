@@ -31,6 +31,13 @@ export class Box<Config extends BoxConfig = BoxConfig> extends Entity<Config> {
 
     ctx.fillStyle = this.config.color;
     ctx.rect(this.config.x, this.config.y, this.config.width, this.config.height);
+
+    if (this.config.stroke) {
+      ctx.strokeStyle = this.config.stroke.color;
+      ctx.lineWidth = this.config.stroke.width;
+      ctx.stroke();
+    }
+
     ctx.fill();
 
     ctx.closePath();

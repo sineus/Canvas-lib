@@ -5,6 +5,7 @@ import { Scene, SceneConfig } from './Scene';
 import { Box, BoxConfig } from './Box';
 import { Line, LineConfig } from './Line';
 import { Text, TextConfig } from './Text';
+import { Transformer, TransformerConfig } from './Transformer';
 import { Transform } from './Types';
 
 const scene: Scene = Scene.create(<SceneConfig>{
@@ -66,7 +67,7 @@ const sceneRect = scene.getClientRect();
 
 // Create middle box
 const boxM: Box = Box.create(<BoxConfig>{
-  x: sceneRect.width / 2, 
+  x: 200, 
   y: sceneRect.height / 2, 
   width: 50, 
   height: 50, 
@@ -109,6 +110,9 @@ const text: Text = Text.create(<TextConfig>{
   y: 30
 });
 
+const transformer: Transformer = Transformer.create({});
+transformer.attachTo(boxM);
+
 for (let i = 0; i < 37; i++) { 
   const line: Line = Line.create(<LineConfig>{
     points: [
@@ -148,7 +152,8 @@ scene
   // .add(text)
   .add(lineH)
   .add(lineV)
-  .add(boxM);
+  .add(boxM)
+  .add(transformer);
 
 boxH.add(textH);
 boxV.add(textV);
