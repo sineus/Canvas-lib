@@ -22,7 +22,7 @@ export class Text<Config extends TextConfig = TextConfig> extends Entity<Config>
     return new Text(config);
   }
 
-  render(ctx: CanvasRenderingContext2D) {
+  render(ctx: CanvasRenderingContext2D, newContext: boolean = true) {
 
     this.config.x = this.config.x || 0;
     this.config.y = this.config.y || 0;
@@ -35,7 +35,10 @@ export class Text<Config extends TextConfig = TextConfig> extends Entity<Config>
     this.config.font.baseline = this.config.font.baseline || 'top';
     this.config.font.lineHeight = this.config.font.lineHeight || 1;
 
-    ctx.save();
+    if (newContext) {
+      ctx.save();
+    }
+
     ctx.beginPath();
 
     ctx.font = this.config.font.size + ' ' + this.config.font.family;
@@ -61,6 +64,9 @@ export class Text<Config extends TextConfig = TextConfig> extends Entity<Config>
     ctx.fill();
 
     ctx.closePath();
-    ctx.restore();
+    
+    if (newContext) {
+      ctx.restore();
+    }
   }
 }

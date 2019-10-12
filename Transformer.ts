@@ -42,22 +42,26 @@ export class Transformer<Config extends TransformerConfig = TransformerConfig> e
 
     const center: Vector2d = this.entity.getCenter();
 
-    ctx.translate(center.x, center.y);
+    /* ctx.translate(center.x, center.y);
     ctx.rotate(this.config.angle * Math.PI / 180);
-    ctx.translate(-center.x, -center.y);
+    ctx.translate(-center.x, -center.y); */
 
     const dummy = Box.create(<BoxConfig>{
-      ...this.entity.config,
-      // angle: this.entity.config.angle,
+      x: this.entity.config.x,
+      y: this.entity.config.y,
+      width: this.entity.config.width,
+      height: this.entity.config.height,
+      color: 'transparent',
+      angle: this.entity.config.angle,
       stroke: {
         color: 'red',
-        width: 2
+        width: 1
       }
     });
 
     const positions = this.getEntityRect(this.entity);
 
-    dummy.render(ctx);
+    dummy.render(ctx, false);
 
     for (let i = 0; i < positions.length; i++) {
       const anchor = Box.create(<BoxConfig>{
@@ -73,7 +77,7 @@ export class Transformer<Config extends TransformerConfig = TransformerConfig> e
         angle: 0
       });
 
-      anchor.render(ctx, false);
+      anchor.render(ctx);
       this.anchors.push(anchor);
     }
 
