@@ -76,7 +76,16 @@ const boxM: Box = Box.create(<BoxConfig>{
   height: 50, 
   color: 'green', 
   angle: 0,
-  isStatic: false
+  isStatic: false,
+  force: {
+    x: 0,
+    y: 0
+  },
+  mass: 0,
+  velocity: {
+    x: 0,
+    y: 0
+  }
 });
 
 // Drawing horizontal line
@@ -150,9 +159,9 @@ for (let i = 0; i < 37; i++) {
 }
 
 scene
-  .add(boxH)
+  // .add(boxH)
   .add(text)
-  .add(boxV)
+  // .add(boxV)
   // .add(text)
   .add(lineH)
   .add(lineV)
@@ -224,7 +233,7 @@ function loop() {
   controls.angleText -= 1.5;
 
   // Transform boxs
-  boxH.transform(<Transform>{
+  /* boxH.transform(<Transform>{
     x: controls.x,
     angle: controls.angle
   });
@@ -232,7 +241,7 @@ function loop() {
   boxV.transform(<Transform>{
     y: controls.y,
     angle: controls.angle
-  });
+  }); */
 
   /* boxM.transform(<Transform>{
     y: controls.y,
@@ -240,9 +249,9 @@ function loop() {
     angle: controls.angle * .2
   }); */
 
-  textV.transform(<Transform>{
+  /* textV.transform(<Transform>{
     angle: controls.angleText
-  });
+  }); */
 
   /* textV.setProp('text', `
     x: ${boxV.config.x}

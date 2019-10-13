@@ -20,6 +20,8 @@ export interface EntityConfig {
   force?: Vector2d;
   mass?: number;
   isStatic?: boolean;
+  velocity?: Vector2d;
+  previousPosition: Vector2d;
 }
 
 
@@ -44,6 +46,18 @@ export abstract class Entity<Config extends EntityConfig = EntityConfig> {
     if (config.mass === null) {
       config.mass = 0;
     }
+
+    if (config.velocity === null) {
+      config.velocity = {
+        x: 0,
+        y: 0
+      };
+    }
+
+    config.previousPosition = {
+      x: config.x,
+      y: config.y
+    };
 
     this._config = config;
   }
