@@ -12,11 +12,14 @@ export interface EntityConfig {
     blur?: number;
     offsetX?: number;
     offsetY?: number;
-  },
+  };
   stroke?: {
     width?: number;
     color?: string;
-  }
+  };
+  force?: Vector2d;
+  mass?: number;
+  isStatic?: boolean;
 }
 
 
@@ -26,6 +29,22 @@ export abstract class Entity<Config extends EntityConfig = EntityConfig> {
   private _parent: Entity;
 
   constructor(config: Config) {
+
+    if (config.isStatic === null) {
+      config.isStatic = true;
+    }
+
+    if (config.force === null) {
+      config.force = {
+        x: 0,
+        y: 0
+      };
+    }
+
+    if (config.mass === null) {
+      config.mass = 0;
+    }
+
     this._config = config;
   }
 

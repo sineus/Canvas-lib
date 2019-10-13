@@ -75,7 +75,8 @@ const boxM: Box = Box.create(<BoxConfig>{
   width: 50, 
   height: 50, 
   color: 'green', 
-  angle: 0
+  angle: 0,
+  isStatic: false
 });
 
 // Drawing horizontal line
@@ -196,6 +197,8 @@ let scale = 1;
 
 scene.render();
 
+console.log(boxM);
+
 function loop() {
 
   // Increment controls
@@ -231,11 +234,11 @@ function loop() {
     angle: controls.angle
   });
 
-  boxM.transform(<Transform>{
+  /* boxM.transform(<Transform>{
     y: controls.y,
     width: controls.width,
     angle: controls.angle * .2
-  });
+  }); */
 
   textV.transform(<Transform>{
     angle: controls.angleText

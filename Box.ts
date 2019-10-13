@@ -49,6 +49,11 @@ export class Box<Config extends BoxConfig = BoxConfig> extends Entity<Config> {
     ctx.fill();
     ctx.closePath();
 
+    if (!this.config.isStatic) {
+      this.config.force.y += this.config.mass * 1 * 0.001;
+      this.config.force.x += this.config.mass * 0 * 0.001;
+    }
+
     if (newContext) {
       ctx.restore();
     }
