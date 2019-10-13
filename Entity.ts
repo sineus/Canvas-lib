@@ -1,6 +1,6 @@
 import { Vector2d, Transform } from './Types';
 
-export interface EntityConfig {
+export class EntityConfig {
   x?: number;
   y?: number;
   width?: number;
@@ -17,11 +17,30 @@ export interface EntityConfig {
     width?: number;
     color?: string;
   };
-  force?: Vector2d;
-  mass?: number;
-  isStatic?: boolean;
-  velocity?: Vector2d;
-  previousPosition: Vector2d;
+
+  force?: Vector2d = {
+    x: 0,
+    y: 0
+  };
+
+  mass?: number = 0.001;
+  isStatic?: boolean = true;
+  angularVelocity?: number = 0;
+  previousAngle?: number = 0;
+  velocity?: Vector2d = {
+    x: 0,
+    y: 0
+  };
+
+  torque: number = 0;
+  inertia: number = 0;
+
+  previousPosition?: Vector2d = {
+    x: 0,
+    y: 0
+  };
+
+  timeScale?: number = 1;
 }
 
 
@@ -31,38 +50,15 @@ export abstract class Entity<Config extends EntityConfig = EntityConfig> {
   private _parent: Entity;
 
   constructor(config: Config) {
-
-    if (config.isStatic === null) {
-      config.isStatic = true;
-    }
-
-    if (config.force === null) {
-      config.force = {
-        x: 0,
-        y: 0
-      };
-    }
-
-    if (config.mass === null) {
-      config.mass = 0;
-    }
-
-    if (config.velocity === null) {
-      config.velocity = {
-        x: 0,
-        y: 0
-      };
-    }
-
     config.previousPosition = {
       x: config.x,
       y: config.y
     };
 
-    this._config = config;
+    this._config = {...new EntityConfig(), ...config};
   }
 
-  abstract render(ctx: CanvasRenderingContext2D, newContext: boolean): void;
+  abstract render(ctx: CanvasRenderingContext2D, newContext?: boolean): void;
 
   public get config(): Config {
     return this._config;

@@ -71,21 +71,12 @@ const sceneRect = scene.getClientRect();
 // Create middle box
 const boxM: Box = Box.create(<BoxConfig>{
   x: 200, 
-  y: sceneRect.height / 2, 
+  y: 0, 
   width: 50, 
   height: 50, 
   color: 'green', 
   angle: 0,
-  isStatic: false,
-  force: {
-    x: 0,
-    y: 0
-  },
-  mass: 0,
-  velocity: {
-    x: 0,
-    y: 0
-  }
+  isStatic: false
 });
 
 // Drawing horizontal line
@@ -126,7 +117,7 @@ const text: Text = Text.create(<TextConfig>{
 const transformer: Transformer = Transformer.create({});
 transformer.attachTo(boxM);
 
-for (let i = 0; i < 37; i++) { 
+/* for (let i = 0; i < 37; i++) { 
   const line: Line = Line.create(<LineConfig>{
     points: [
       [30, PADDING + (i * 10)],
@@ -136,15 +127,15 @@ for (let i = 0; i < 37; i++) {
   });
 
   scene.add(line);
-}
+} */
 
-for (let i = 0; i < 37; i++) { 
+/* for (let i = 0; i < 37; i++) { 
   const text: Text = Text.create(<TextConfig>{
     font: 'Roboto 10px',
     color: 'black',
     text: (i * 15).toString(),
     x: 37 + (i * 15),
-    y: 25,
+    y: 25
   });
 
   const line: Line = Line.create(<LineConfig>{
@@ -156,21 +147,21 @@ for (let i = 0; i < 37; i++) {
   });
 
   scene.add(line);
-}
+} */
 
 scene
   // .add(boxH)
-  .add(text)
+  // .add(text)
   // .add(boxV)
   // .add(text)
-  .add(lineH)
-  .add(lineV)
+  // .add(lineH)
+  // .add(lineV)
   .add(boxM)
   // .add(transformer);
 
-boxH.add(textH);
-boxV.add(textV);
-boxM.add(transformer);
+// boxH.add(textH);
+// boxV.add(textV);
+// boxM.add(transformer);
 
 container.style.backgroundColor = 'white';
 
@@ -243,11 +234,11 @@ function loop() {
     angle: controls.angle
   }); */
 
-  /* boxM.transform(<Transform>{
-    y: controls.y,
-    width: controls.width,
-    angle: controls.angle * .2
-  }); */
+  boxM.transform(<Transform>{
+    // y: controls.y,
+    // width: controls.width,
+    // angle: controls.angle * .2
+  });
 
   /* textV.transform(<Transform>{
     angle: controls.angleText
