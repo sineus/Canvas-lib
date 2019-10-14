@@ -27,15 +27,12 @@ export class Transformer<Config extends TransformerConfig = TransformerConfig> e
 
   attachTo(entity: Entity) {
     this.entity = entity;
+    this.entity.add(this);
   }
 
-  render(ctx: CanvasRenderingContext2D, newContext: boolean = true) {
+  render(ctx: CanvasRenderingContext2D) {
     if (!this.entity) {
       return;
-    }
-
-    if (newContext) {
-      ctx.save();
     }
 
     ctx.beginPath();
@@ -78,10 +75,6 @@ export class Transformer<Config extends TransformerConfig = TransformerConfig> e
     }
 
     ctx.closePath();
-
-    if (newContext) {
-      ctx.restore();
-    }
   }
 
   getEntityRect(entity: Entity): Array<Vector2d> {

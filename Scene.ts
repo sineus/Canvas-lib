@@ -54,19 +54,32 @@ export class Scene<Config extends SceneConfig = SceneConfig> {
   public render(): void {
     this._ctx.clearRect(0, 0, window.innerWidth * this._ratio, window.innerHeight * this._ratio);
 
-    this.applyGravity(this._entities);
+    // this.applyGravity(this._entities);
 
     for (let i = 0; i < this._entities.length; i++) {
+
+
+      this._ctx.save();
       const entity: Entity = this._entities[i];
       entity.config.timeScale = this._timeScale;
       entity.render(this._ctx);
 
       for (const child of entity.getChildren()) {
+        if (!child.config.keepCtx) {
+          this._ctx.save();
+        }
+
         child.config.x = entity.config.x;
         child.config.y = entity.config.y;
         
         child.render(this._ctx);
+
+        if (!child.config.keepCtx) {
+          this._ctx.restore();
+        }
       }
+
+      this._ctx.restore();
     }
   }
 

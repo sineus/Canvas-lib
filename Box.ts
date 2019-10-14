@@ -12,11 +12,7 @@ export class Box<Config extends BoxConfig = BoxConfig> extends Entity<Config> {
     return new Box(config);
   }
 
-  render(ctx: CanvasRenderingContext2D, newContext: boolean = true): void {
-    if (newContext) {
-      ctx.save();
-    }
-
+  render(ctx: CanvasRenderingContext2D): void {
     ctx.beginPath();
 
     const center = this.getCenter();
@@ -44,7 +40,7 @@ export class Box<Config extends BoxConfig = BoxConfig> extends Entity<Config> {
     this.config.y += this.config.velocity.y;
 
     this.config.angularVelocity = ((this.config.angle - this.config.previousAngle) * frictionAir * 1) + (this.config.torque / this.config.inertia) * deltaTimeSquared;
-        this.config.anglePrev = this.config.angle;
+        this.config.previousAngle = this.config.angle;
         this.config.angle += this.config.angularVelocity;
 
     if (this.config.shadow) {
@@ -70,9 +66,5 @@ export class Box<Config extends BoxConfig = BoxConfig> extends Entity<Config> {
 
     ctx.fill();
     ctx.closePath();
-
-    if (newContext) {
-      ctx.restore();
-    }
   }
 }

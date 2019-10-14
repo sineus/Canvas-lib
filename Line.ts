@@ -15,7 +15,6 @@ export class Line<Config extends LineConfig = LineConfig> extends Entity<Config>
   }
 
   render(ctx: CanvasRenderingContext2D) {
-    ctx.save();
     ctx.beginPath();
 
     for (let i = 0; i < this.config.points.length; i++) {
@@ -33,6 +32,5 @@ export class Line<Config extends LineConfig = LineConfig> extends Entity<Config>
 
     ctx.stroke();
     ctx.closePath();
-    ctx.restore();
   }
 }

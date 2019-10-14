@@ -71,7 +71,7 @@ const sceneRect = scene.getClientRect();
 // Create middle box
 const boxM: Box = Box.create(<BoxConfig>{
   x: 200, 
-  y: 0, 
+  y: 200, 
   width: 50, 
   height: 50, 
   color: 'green', 
@@ -98,7 +98,8 @@ const lineV: Line = Line.create(<LineConfig>{
 // Drawing vertical text
 const textV: Text = Text.create(<TextConfig>{
   color: 'black',
-  text: 'Rect A'
+  text: 'Rect A',
+  keepCtx: false
 });
 
 // Drawing horizontal text
@@ -117,7 +118,7 @@ const text: Text = Text.create(<TextConfig>{
 const transformer: Transformer = Transformer.create({});
 transformer.attachTo(boxM);
 
-/* for (let i = 0; i < 37; i++) { 
+for (let i = 0; i < 37; i++) { 
   const line: Line = Line.create(<LineConfig>{
     points: [
       [30, PADDING + (i * 10)],
@@ -127,9 +128,9 @@ transformer.attachTo(boxM);
   });
 
   scene.add(line);
-} */
+}
 
-/* for (let i = 0; i < 37; i++) { 
+for (let i = 0; i < 37; i++) { 
   const text: Text = Text.create(<TextConfig>{
     font: 'Roboto 10px',
     color: 'black',
@@ -147,21 +148,19 @@ transformer.attachTo(boxM);
   });
 
   scene.add(line);
-} */
+}
 
 scene
-  // .add(boxH)
-  // .add(text)
-  // .add(boxV)
-  // .add(text)
-  // .add(lineH)
-  // .add(lineV)
+  .add(boxH)
+  .add(text)
+  .add(boxV)
+  .add(lineH)
+  .add(lineV)
   .add(boxM)
   // .add(transformer);
 
-// boxH.add(textH);
-// boxV.add(textV);
-// boxM.add(transformer);
+boxH.add(textH);
+boxV.add(textV);
 
 container.style.backgroundColor = 'white';
 
@@ -224,7 +223,7 @@ function loop() {
   controls.angleText -= 1.5;
 
   // Transform boxs
-  /* boxH.transform(<Transform>{
+  boxH.transform(<Transform>{
     x: controls.x,
     angle: controls.angle
   });
@@ -232,17 +231,17 @@ function loop() {
   boxV.transform(<Transform>{
     y: controls.y,
     angle: controls.angle
-  }); */
-
-  boxM.transform(<Transform>{
-    // y: controls.y,
-    // width: controls.width,
-    // angle: controls.angle * .2
   });
 
-  /* textV.transform(<Transform>{
+  boxM.transform(<Transform>{
+    y: controls.y,
+    // width: controls.width,
+    angle: controls.angle * .2
+  });
+
+  textV.transform(<Transform>{
     angle: controls.angleText
-  }); */
+  });
 
   /* textV.setProp('text', `
     x: ${boxV.config.x}

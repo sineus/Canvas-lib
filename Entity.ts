@@ -18,6 +18,8 @@ export class EntityConfig {
     color?: string;
   };
 
+  keepCtx?: boolean = true;
+
   force?: Vector2d = {
     x: 0,
     y: 0
@@ -32,8 +34,8 @@ export class EntityConfig {
     y: 0
   };
 
-  torque: number = 0;
-  inertia: number = 0;
+  torque?: number = 0;
+  inertia?: number = 0;
 
   previousPosition?: Vector2d = {
     x: 0,
@@ -47,6 +49,7 @@ export class EntityConfig {
 export abstract class Entity<Config extends EntityConfig = EntityConfig> {
   private _config: Config;
   private _children: Array<Entity> = [];
+  private _ctx: CanvasRenderingContext2D;
   private _parent: Entity;
 
   constructor(config: Config) {
@@ -58,7 +61,7 @@ export abstract class Entity<Config extends EntityConfig = EntityConfig> {
     this._config = {...new EntityConfig(), ...config};
   }
 
-  abstract render(ctx: CanvasRenderingContext2D, newContext?: boolean): void;
+  abstract render(ctx: CanvasRenderingContext2D): void;
 
   public get config(): Config {
     return this._config;
